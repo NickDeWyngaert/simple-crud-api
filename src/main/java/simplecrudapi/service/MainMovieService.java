@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import simplecrudapi.model.dto.MovieDTO;
 import simplecrudapi.model.entity.Movie;
 import simplecrudapi.repo.MovieRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,26 +19,31 @@ public class MainMovieService implements MovieService {
 
     @Override
     public List<Movie> readAll() {
-        return new ArrayList<Movie>();
+        return this.database.findAll();
     }
 
     @Override
     public Movie read(Long id) {
-        return new Movie();
+        return this.database.findById(id).get();
     }
 
     @Override
-    public Movie create(MovieDTO movie) {
-        return new Movie();
+    public Movie create(MovieDTO moviedto) {
+        Movie movie = Convert.dtoToMovie(moviedto);
+        movie = this.database.save(movie);
+        return movie;
     }
 
     @Override
-    public Movie update(Long id, MovieDTO movie) {
-        return new Movie();
+    public Movie update(Long id, MovieDTO moviedto) {
+        this.delete(id);
+        return this.create(moviedto);
     }
 
     @Override
     public Movie delete(Long id) {
-        return new Movie();
+        Movie movie = this.read(id);
+        this.database.deleteById(id);
+        return movie;
     }
 }
