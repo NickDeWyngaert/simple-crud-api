@@ -30,7 +30,7 @@ public abstract class CreateDummy {
                 "Avengers: Endgame",
                 "action",
                 "Anthony Russo, Joe Russo",
-                "2019-04-2019",
+                "2019-04-12",
                 180,
                 "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_UX182_CR0,0,182,268_AL_.jpg",
                 "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos's actions and undo the chaos to the universe, no matter what consequences may be in store, and no matter who they face..."

@@ -10,6 +10,9 @@ import simplecrudapi.miscellaneous.CreateDummy;
 import simplecrudapi.model.Error;
 import simplecrudapi.model.Movie;
 import simplecrudapi.service.MovieService;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -75,6 +78,8 @@ public class MoviesController {
     // Simple Log
     private void logRequest(HttpMethod httpMethod, String logic, String requestParameters, String requestBody){
         String log = "";
+        log += LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).toString();
+        log += " - ";
         log += httpMethod.toString();
         log += " - ";
         log += logic;
