@@ -4,9 +4,9 @@ import simplecrudapi.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CreateDummyMovies {
+public abstract class CreateDummy {
 
-    public static List<Movie> getDummyMovies(){
+    public static List<Movie> movies(){
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(
                 "Fast & Furious 8",

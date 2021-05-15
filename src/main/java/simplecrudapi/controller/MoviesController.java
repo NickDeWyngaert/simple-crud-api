@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import simplecrudapi.exception.MovieNotFoundException;
-import simplecrudapi.miscellaneous.CreateDummyMovies;
+import simplecrudapi.miscellaneous.CreateDummy;
 import simplecrudapi.model.Error;
 import simplecrudapi.model.Movie;
 import simplecrudapi.service.MovieService;
@@ -23,7 +23,7 @@ public class MoviesController {
     public MoviesController(MovieService service){
         this.service = service;
         // Create dummy's
-        for(Movie movie : CreateDummyMovies.getDummyMovies()){
+        for(Movie movie : CreateDummy.movies()){
             if(movie != null) this.service.create(movie);
         }
     }
