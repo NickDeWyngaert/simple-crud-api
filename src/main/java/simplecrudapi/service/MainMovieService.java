@@ -2,8 +2,8 @@ package simplecrudapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import simplecrudapi.model.dto.MovieDTO;
-import simplecrudapi.model.entity.Movie;
+import simplecrudapi.exception.MovieNotFoundException;
+import simplecrudapi.model.Movie;
 import simplecrudapi.repo.MovieRepository;
 import java.util.List;
 
@@ -24,26 +24,22 @@ public class MainMovieService implements MovieService {
 
     @Override
     public Movie read(Long id) {
-        return this.database.findById(id).get();
+        return this.database.findMovieById(id)
+                .orElseThrow(() -> new MovieNotFoundException(id));
     }
 
     @Override
-    public Movie create(MovieDTO moviedto) {
-        Movie movie = Convert.dtoToMovie(moviedto);
-        movie = this.database.save(movie);
-        return movie;
+    public Movie create(Movie movie) {
+        return this.database.save(movie);
     }
 
     @Override
-    public Movie update(Long id, MovieDTO moviedto) {
-        this.delete(id);
-        return this.create(moviedto);
+    public Movie update(Movie movie) {
+        return this.database.save(movie);
     }
 
     @Override
-    public Movie delete(Long id) {
-        Movie movie = this.read(id);
+    public void delete(Long id) {
         this.database.deleteById(id);
-        return movie;
     }
 }

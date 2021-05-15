@@ -1,30 +1,36 @@
-package simplecrudapi.model.entity;
+package simplecrudapi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Movie {
+public class Movie implements Serializable {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
     private Long id;
-    @NotEmpty
     private String title;
-    @NotEmpty
     private String genre;
-    @NotEmpty
     private String director;
-    @NotEmpty
     private String release;
     private int duration;
-    @NotEmpty
+    private String imagelink;
+    @Lob // long text
     private String about;
 
     public Movie() {}
+
+    public Movie(String title, String genre, String director, String release, int duration, String imagelink, String about){
+        this.setTitle(title);
+        this.setGenre(genre);
+        this.setDirector(director);
+        this.setRelease(release);
+        this.setDuration(duration);
+        this.setImagelink(imagelink);
+        this.setAbout(about);
+    }
 
     public Long getId() {
         return id;
@@ -62,6 +68,12 @@ public class Movie {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+    public String getImagelink() {
+        return imagelink;
+    }
+    public void setImagelink(String imageLink) {
+        this.imagelink = imageLink;
+    }
     public String getAbout() {
         return about;
     }
@@ -74,12 +86,12 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return duration == movie.duration && Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre) && Objects.equals(director, movie.director) && Objects.equals(release, movie.release) && Objects.equals(about, movie.about);
+        return duration == movie.duration && Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre) && Objects.equals(director, movie.director) && Objects.equals(release, movie.release) && Objects.equals(imagelink, movie.imagelink) && Objects.equals(about, movie.about);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, genre, director, release, duration, about);
+        return Objects.hash(id, title, genre, director, release, duration, imagelink, about);
     }
 
     @Override
@@ -91,7 +103,9 @@ public class Movie {
                 ", director='" + director + '\'' +
                 ", release='" + release + '\'' +
                 ", duration=" + duration +
+                ", imagelink='" + imagelink + '\'' +
                 ", about='" + about + '\'' +
                 '}';
     }
+
 }
