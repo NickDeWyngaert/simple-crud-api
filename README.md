@@ -7,6 +7,7 @@ A simple CRUD API made with Spring Boot
     * [Postman](#Postman)
 
 ## Installation
+* Install Java (JDK 11)
 * Open IntelliJ IDEA
 * Open Project
 * Install dependencies ([pom.xml](pom.xml))
@@ -14,7 +15,7 @@ A simple CRUD API made with Spring Boot
     * Default endpoint is [localhost:8080](http://localhost:8080)
 
 ## Usage
-This application has no HTML or visual managnment screen.
+This application has no HTML or visual management screen.
 The UI for this API is located at [NickDeWyngaert/simple-crud-ui](https://github.com/NickDeWyngaert/simple-crud-ui)
 
 ### Resources
