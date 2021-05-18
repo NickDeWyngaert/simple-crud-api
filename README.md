@@ -16,11 +16,11 @@ A simple CRUD API made with Spring Boot
 
 ## Usage
 This application has no HTML or visual management screen.
-The UI for this API is located at [NickDeWyngaert/simple-crud-ui](https://github.com/NickDeWyngaert/simple-crud-ui)
+The UI for this API is located at [simple-crud-ui](https://github.com/NickDeWyngaert/simple-crud-ui)
 
 ### Resources
 | Movies               | Method        | URL               |
-| -------------------- |:-------------:| -----------------:|
+| -------------------- | ------------- | ----------------- |
 | Get all movies       | `GET`         | `/movies`         |
 | Create movie         | `POST`        | `/movies`         |
 | Get movie with ID    | `GET`         | `/movies/:id`     |
