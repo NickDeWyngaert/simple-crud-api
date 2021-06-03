@@ -1,7 +1,7 @@
 # Simple CRUD API
 
 * [About](#About)
-* [Getting Started](#Getting Started)
+* [Getting Started](#Getting-Started)
     * [Prerequisites](#Prerequisites)
     * [Installation](#Installation)
 * [Usage](#Usage)
