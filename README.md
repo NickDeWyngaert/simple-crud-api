@@ -16,6 +16,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 * Java (JDK 11)
+* Maven
 
 ### Installation
 1. Clone the repository
@@ -42,3 +43,7 @@ To get a local copy up and running follow these simple example steps.
 ### Postman
 * [Simple-CRUD-API.postman_collection.json](Simple-CRUD-API.postman_collection.json)
 * Export version: v2.1
+
+### OpenAPI
+* [Simple-CRUD-API.yaml](Simple-CRUD-API.yaml)
+* Version: 3.0.1

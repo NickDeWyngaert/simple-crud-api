@@ -1,0 +1,118 @@
+openapi: 3.0.1
+info:
+  title: Simple CRUD API
+  description: A simple CRUD API made with Spring Boot
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /movies:
+    get:
+      description: Get all movies
+      responses:
+        200:
+          description: List with movies
+      servers:
+        - url: 'http://localhost:8080'
+    post:
+      description: Create new movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                genre:
+                  type: string
+                director:
+                  type: string
+                release:
+                  type: string
+                duration:
+                  type: integer
+                imagelink:
+                  type: string
+                about:
+                  type: string
+      responses:
+        200:
+          description: Returns created movie
+      servers:
+        - url: 'http://localhost:8080'
+    servers:
+        - url: 'http://localhost:8080'
+  /movies/{id}:
+    get:
+      description: Get movie with ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of movie
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Returns movie with ID
+        404:
+          description: Cannot find movie with ID
+      servers:
+        - url: 'http://localhost:8080'
+    put:
+      description: Update product with id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of movie
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                genre:
+                  type: string
+                director:
+                  type: string
+                release:
+                  type: string
+                duration:
+                  type: integer
+                imagelink:
+                  type: string
+                about:
+                  type: string
+      responses:
+        200:
+          description: Returns movie with new parameters
+      servers:
+        - url: 'http://localhost:8080'
+    delete:
+      description: Delete product with index
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of movie
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Returns nothing
+      servers:
+        - url: 'http://localhost:8080'
+    servers:
+      - url: 'http://localhost:8080'
