@@ -83,8 +83,8 @@ public class MoviesController {
         log += httpMethod.toString();
         log += " - ";
         log += logic;
-        log += " - ";
         if(!requestParameters.trim().isEmpty()) {
+            log += " - ";
             log += requestParameters;
             log += " - ";
         }

@@ -7,6 +7,7 @@
 * [Usage](#Usage)
     * [Resources](#Resources)
     * [Postman](#Postman)
+    * [OpenAPI](#OpenAPI)
 
 ## About
 A simple CRUD API made with Spring Boot
