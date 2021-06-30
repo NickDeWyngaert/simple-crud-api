@@ -20,31 +20,41 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MoviesController {
 
+    private final static boolean REQUESTLOG = true;
     private final MovieService service;
 
     @Autowired
     public MoviesController(MovieService service){
         this.service = service;
-        // Create dummy's
-        for(Movie movie : CreateDummy.movies()){
-            if(movie != null) this.service.create(movie);
-        }
+        this.createDummys(); // remove this line if you don't want dummy's in your list
     }
 
     // CREATE
     @PostMapping
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
+    public ResponseEntity<?> createMovie(@RequestBody Movie movie){
         this.logRequest(HttpMethod.POST,"Create movie","",movie.toString());
-        Movie createdMovie = this.service.create(movie);
-        return new ResponseEntity<>(createdMovie,HttpStatus.CREATED);
+        Movie createdMovie;
+        try {
+            createdMovie = this.service.create(movie);
+            return new ResponseEntity<>(createdMovie,HttpStatus.CREATED);
+        }
+        catch (RuntimeException exception) {
+            return new ResponseEntity<>(new Error("Something went wrong on our side"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // READ
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies(){
+    public ResponseEntity<?> getAllMovies(){
         this.logRequest(HttpMethod.GET,"All movies");
-        List<Movie> movies = this.service.readAll();
-        return new ResponseEntity<>(movies, HttpStatus.OK);
+        List<Movie> movies;
+        try {
+            movies = this.service.readAll();
+            return new ResponseEntity<>(movies, HttpStatus.OK);
+        }
+        catch (RuntimeException exception) {
+            return new ResponseEntity<>(new Error("Something went wrong on our side"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovie(@PathVariable Long id){
@@ -52,47 +62,74 @@ public class MoviesController {
         Movie movie;
         try {
             movie = this.service.read(id);
+            return new ResponseEntity<>(movie, HttpStatus.OK);
         }
         catch (MovieNotFoundException exception){
             return new ResponseEntity<>(new Error(exception.getMessage()), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(movie, HttpStatus.OK);
+        catch (RuntimeException exception) {
+            return new ResponseEntity<>(new Error("Something went wrong on our side"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @RequestBody Movie movie){
+    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody Movie movie){
         this.logRequest(HttpMethod.PUT,"Update movie",id.toString(),movie.toString());
-        Movie updatedMovie = this.service.update(movie);
-        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
+        Movie updatedMovie;
+        try {
+            updatedMovie = this.service.update(movie);
+            return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
+        }
+        catch (MovieNotFoundException exception) {
+            return new ResponseEntity<>(new Error(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }
+        catch (RuntimeException exception) {
+            return new ResponseEntity<>(new Error("Something went wrong on our side"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id){
         this.logRequest(HttpMethod.DELETE,"Delete movie",id.toString(),"");
-        this.service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            this.service.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (MovieNotFoundException exception) {
+            return new ResponseEntity<>(new Error(exception.getMessage()), HttpStatus.NOT_FOUND);
+        }
+        catch (RuntimeException exception) {
+            return new ResponseEntity<>(new Error("Something went wrong on our side"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Simple Log
     private void logRequest(HttpMethod httpMethod, String logic, String requestParameters, String requestBody){
-        String log = "";
-        log += LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")).toString();
-        log += " - ";
-        log += httpMethod.toString();
-        log += " - ";
-        log += logic;
-        if(!requestParameters.trim().isEmpty()) {
+        if(REQUESTLOG) {
+            String log = "";
+            log += LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toString();
             log += " - ";
-            log += requestParameters;
+            log += httpMethod.toString();
             log += " - ";
+            log += logic;
+            if(!requestParameters.trim().isEmpty()) {
+                log += " - ";
+                log += requestParameters;
+                log += " - ";
+            }
+            if(!requestBody.trim().isEmpty()) {
+                log += requestBody;
+            }
+            System.out.println(log);
         }
-        if(!requestBody.trim().isEmpty()) {
-            log += requestBody;
-        }
-        System.out.println(log);
     }
     private void logRequest(HttpMethod httpMethod, String logic){ this.logRequest(httpMethod,logic,"",""); }
+
+    // Dummy's
+    private void createDummys(){
+        for(Movie movie : CreateDummy.movies()) if(movie != null) this.service.create(movie);
+    }
 
 }

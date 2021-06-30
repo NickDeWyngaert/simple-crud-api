@@ -23,7 +23,7 @@ public class MainMovieService implements MovieService {
     }
 
     @Override
-    public Movie read(Long id) {
+    public Movie read(Long id) throws MovieNotFoundException {
         return this.database.findMovieById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
     }
@@ -34,12 +34,14 @@ public class MainMovieService implements MovieService {
     }
 
     @Override
-    public Movie update(Movie movie) {
+    public Movie update(Movie movie) throws MovieNotFoundException {
+        this.read(movie.getId());
         return this.database.save(movie);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws MovieNotFoundException {
+        this.read(id);
         this.database.deleteById(id);
     }
 }
